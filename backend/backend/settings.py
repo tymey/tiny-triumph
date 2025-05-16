@@ -10,36 +10,57 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables from .env file at project root
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s)sa=o#5!gmndn*i8oo3a9z7f^luen_avlnk-975*6iopd&&!9'
+# Get the SECRET_KEY from .env in the backend directory
+SECRET_KEY = os.getenv('SECRET KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Get the DEBUG more from .env in the backend directory
+# .env variables come as strings
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+# Get the ALLOWED_HOSTS from .env in the backend directory
+# Split to create an array of allowed hosts
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Django defaults...
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
+    'rest_framework',
+    'corsheaders',
+
+    # Your apps (we'll create these as needed)
+    # 'apps.users',
+    # 'apps.posts',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
+    # Django's default middleware...
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -120,3 +141,24 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS
+# Only known origins can call our API
+CORS_ALLOWED_ORIGINS = os.getenv('ALLOWED_HOSTS', '').split(',')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # SessionAuthentication: For traditional Django session cookies
+        # Useful if you ever render server-side templates or use the DRF browsable API
+        'rest_framework.authentication.SessionAuthentication',
+
+        # JWTAuthentication: So React (or any client) can log in once, store a token, and send it with each request
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # The default permission ("authenticated or read-only") means:
+          # Any user can `GET` lists or details
+          # Only logged-in users can `POST`, `PUT`, `DELETE`
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+}
