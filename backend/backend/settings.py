@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # Your apps (we'll create these as needed)
-    # 'apps.users',
+    'apps.users',
     # 'apps.posts',
 ]
 
