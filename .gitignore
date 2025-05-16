@@ -1,2 +1,6 @@
 # Ignore Python venv
 /backend/.venv/
+
+# Env files
+/backend/.env
+
