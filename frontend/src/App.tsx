@@ -1,10 +1,12 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 function App() {
     return (
-        <div>
-            <h1>Tiny Triumphs</h1>
-            <p>Your journey to celebrate every small win begins here.</p>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <h1 className="text-4xl font-bold text-blue-600">
+                Tiny Triumphs
+            </h1>
         </div>
     );
 };

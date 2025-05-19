@@ -24,8 +24,15 @@ module.exports = (_, argv) => ({
         exclude: /node_modules/
       },
       {
-        test: /\.css$/,
-        use: ['style-loader','css-loader']
+        test: /\.css$/i,
+        use: [
+            'style-loader',
+            {
+                loader: 'css-loader',
+                options: { importLoaders: 1 },
+            },
+            'postcss-loader'    // Runs Tailwind & autoprefixer
+        ]
       }
     ]
   },
@@ -37,14 +44,20 @@ module.exports = (_, argv) => ({
     })
   ],
   devServer: {
-    static: path.join(__dirname, 'dist'),
+    static: {
+        directory: path.join(__dirname, 'dist')
+    },
     historyApiFallback: true,
     port: 3000,
-    open: true,
     hot: true,
-    proxy: {
-      // if you prefer proxying API calls in webpack-dev-server:
-      '/api': 'http://localhost:8000'
-    }
+    proxy: [
+      // any request to /api/* will be forwarded to the Django server
+      {
+        context: ['/api'],
+        target: 'http://localhost:8000',
+        secure: false,
+        changeOrigin: true,
+      },
+    ],
   }
 });
