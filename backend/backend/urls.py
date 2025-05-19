@@ -17,18 +17,28 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from apps.users.views import ProfileViewSet
+from apps.users.views import RegisterView
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+
 
 # Set up DRF router
 router = DefaultRouter()
 # Register 'users' prefix to map to ProfileViewSet
 router.register(r'users', ProfileViewSet, basename='profile')
 
-# Include all router-generated URLs under /api/
-urlpatterns += [
+urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    # Auth endpoints
+    # POST -> Creates a new user
+    path('api/auth/register/', RegisterView.as_view(), name='auth_register'),
+    # POST -> Supply { username, password }, Get back { access, refresh }
+    path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # POST -> { refresh }, get back a new access token
+    path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
