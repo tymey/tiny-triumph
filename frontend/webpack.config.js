@@ -12,7 +12,6 @@ module.exports = (_, argv) => ({
       : '[name].js',
     publicPath: '/'
   },
-  devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
@@ -21,25 +20,23 @@ module.exports = (_, argv) => ({
       {
         test: /\.[jt]sx?$/,
         use: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: [
             'style-loader',
-            {
-                loader: 'css-loader',
-                options: { importLoaders: 1 },
-            },
+            'css-loader',
             'postcss-loader'    // Runs Tailwind & autoprefixer
-        ]
+        ],
       }
-    ]
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
+      filename: 'index.html',
       title: 'Tiny Triumphs'
     })
   ],
@@ -55,7 +52,6 @@ module.exports = (_, argv) => ({
       {
         context: ['/api'],
         target: 'http://localhost:8000',
-        secure: false,
         changeOrigin: true,
       },
     ],
