@@ -25,7 +25,7 @@ load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Get the SECRET_KEY from .env in the backend directory
-SECRET_KEY = os.getenv('SECRET KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Get the DEBUG more from .env in the backend directory
