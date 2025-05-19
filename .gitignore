@@ -7,3 +7,6 @@
 # Python bytecode caches
 __pycache__/
 *.py[cod]
+
+# Node Modules
+/frontend/node_modules/
