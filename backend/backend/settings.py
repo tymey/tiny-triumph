@@ -42,12 +42,12 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 INSTALLED_APPS = [
     # Django defaults...
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.admin', # The admin site.
+    'django.contrib.auth', # An authentication system.
+    'django.contrib.contenttypes', # A framework of content types
+    'django.contrib.sessions', # A session framework.
+    'django.contrib.messages', # A messaging framework.
+    'django.contrib.staticfiles', # A framework for managing static files.
 
     # Third-party
     'rest_framework',
