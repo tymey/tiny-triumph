@@ -13,3 +13,6 @@ __pycache__/
 
 # Frontend Dist
 /frontend/dist/
+
+# Local Django Database
+/backend/db.sqlite3
