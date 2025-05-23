@@ -22,22 +22,24 @@ const Home = () => {
 };
 
 const App = () => {
-    <AuthProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <ProtectedRoute>
-                            <Home />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path="/login" element={<Login />}/>
-                <Route path="/register" element={<Register />}/>
-            </Routes>
-        </BrowserRouter>
-    </AuthProvider>
+    return (
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="/login" element={<Login />}/>
+                    <Route path="/register" element={<Register />}/>
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
+    );
 };
 
 export default App;
