@@ -1,6 +1,8 @@
 # Tiny Triumph
 
 ## Backend
+- `source .venv/bin/activate`
+- `python manage.py runserver`
 
 ### Dependencies
 - `django`: Our main web framework.
